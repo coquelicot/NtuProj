@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title> hey !! ntu !! </title>
+		<script type='text/javascript'>
+			function display(request){
+				if(request.readyState == 4){
+					if(request.status == 200){
+						var ob = document.getElementById("chatBox");
+						ob.innerHTML = request.responseText;
+					}
+				}
+			}
+			function send(request, method, url, flg, msg){
+				var time = new Date();
+				request.open(method, url + '?time=' + time.getTime(), flg);
+				if(method == 'POST'){
+					request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				}
+				request.send(msg);
+			}
+			function show(){
+				var request = getRequestObject();
+				if(!request) return false;
+				request.onreadystatechange = function(){display(request);}
+				send(request, 'GET', './show', true, null);
+			}
+			function showLoop(){
+				show();
+				setTimeout('showLoop()', 4000);
+			}
+			function submitMsg(){
+				var request = getRequestObject();
+				if(!request) return false;
+				var msgBox = document.getElementById('message');
+				var message = 'message=' + encodeURIComponent(msgBox.value);
+				request.onreadystatechange = function(){
+					if(request.readyState == 4){
+						if(request.status == 200){
+							show();
+							msgBox.value = '';
+						}
+					}
+				}
+				send(request, 'POST', '/sign', false, message);
+				return false;
+			}
+			function getRequestObject(){
+				var request = false;
+				if(window.XMLHttpRequest){
+					request = new XMLHttpRequest();
+				}
+				return request;
+			}
+		</script>
+	</head>
+	<body onload="showLoop()">
+		<div id="chatBox">
+		</div>
+		{% if user %}
+			<form onsubmit="return submitMsg();">
+				<div><textarea id="message" name="message" rows="3" cols="60"></textarea></div>
+				<div><input type="submit" value="Sign Guestbook"></div>
+			</form>
+		{% endif %}
+
+		<a href="{{ url }}">{{ url_linktext }}</a>
+
+	</body>
+</html>
+
+{% comment %}
+	vim:filetype=htmldjango
+{% endcomment %}

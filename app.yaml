@@ -1,0 +1,15 @@
+application: ntuproj
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /admin/.*
+  script: controls/admin.py
+  login: admin
+- url: /.*
+  script: controls/main.py
+- url: /stylesheets
+  static_dir: stylesheets
+- url: /scripts
+  static_dir: scripts
