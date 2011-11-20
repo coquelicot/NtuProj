@@ -4,12 +4,15 @@ runtime: python
 api_version: 1
 
 handlers:
+- url: /ntucoder
+  script: controls/ntucoder.py
+  login: required
 - url: /admin/.*
   script: controls/admin.py
   login: admin
+- url: /stylesheets/
+  static_dir: stylesheets
+- url: /scripts/
+  static_dir: scripts
 - url: /.*
   script: controls/main.py
-- url: /stylesheets
-  static_dir: stylesheets
-- url: /scripts
-  static_dir: scripts

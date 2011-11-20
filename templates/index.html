@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<title> hey !! ntu !! </title>
+		<script type='text/javascript' src='/scripts/base.js'></script>
 		<script type='text/javascript'>
 			function display(request){
 				if(request.readyState == 4){
@@ -44,13 +45,6 @@
 				}
 				send(request, 'POST', '/sign', false, message);
 				return false;
-			}
-			function getRequestObject(){
-				var request = false;
-				if(window.XMLHttpRequest){
-					request = new XMLHttpRequest();
-				}
-				return request;
 			}
 		</script>
 	</head>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> coder </title>
+	</head>
+	<body>
+		<form style="float:left"action="/ntucoder" method="post">
+			<fieldset style="border:0px;">
+				<legend>Code</legend>
+				<textarea cols="70" rows="18" name="code">{{ code }}</textarea>
+			</fieldset>
+			<fieldset style="border:0px;">
+				<legend>Input</legend>
+				<textarea cols="70" rows="12" name="input">{{ input }}</textarea>
+			</fieldset>
+			<input type="submit"/>
+		</form>
+		{% if result %}
+			<fieldset style="border:0px;">
+				{{ result }}
+			</fieldset>
+		{% endif %}
+	</body>
+</html>
+
+{% comment %}
+	vim:filetype=htmldjango
+{% endcomment %}
