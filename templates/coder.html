@@ -2,12 +2,22 @@
 <html>
 	<head>
 		<title> coder </title>
+		<script type='text/javascript'>
+			function tabCheck(e){
+				// is the key tab
+				/*if(!e.ctrl && e.which == 9){
+					document.getElementById('codeBox').value += '    ';
+					return false;
+				}
+				else */return true;
+			}
+		</script>
 	</head>
 	<body>
-		<form style="float:left"action="/ntucoder" method="post">
+		<form style="float:left" action="/ntucoder" method="post">
 			<fieldset style="border:0px;">
 				<legend>Code</legend>
-				<textarea cols="70" rows="18" name="code">{{ code }}</textarea>
+				<textarea id="codeBox" cols="70" rows="18" name="code" onkeydown="return tabCheck(event)">{{ code }}</textarea>
 			</fieldset>
 			<fieldset style="border:0px;">
 				<legend>Input</legend>

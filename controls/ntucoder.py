@@ -5,6 +5,7 @@ from google.appengine.api import urlfetch
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext.webapp import template
+from google.appengine.api import urlfetch_errors
 
 class MainPage(webapp.RequestHandler):
 
@@ -20,7 +21,9 @@ class MainPage(webapp.RequestHandler):
 			page = urlfetch.fetch('http://sincero.dyndns.org/ntuproj/', payload, urlfetch.POST)
 			self.show(page.content, code, indata)
 		except urlfetch.InvalidURLError:
-			self.response.out.write("Can not connect to server.")
+			self.show('Can not connect to server.', code, indata)
+		except urlfetch_errors.DeadlineExceededError:
+			self.show('Can not get response in time.', code, indata)
 			
 	def get(self):
 		self.show(code='/* code here */')
