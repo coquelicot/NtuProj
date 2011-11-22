@@ -3,13 +3,36 @@
 	<head>
 		<title> coder </title>
 		<script type='text/javascript'>
-			function tabCheck(e){
-				// is the key tab
-				/*if(!e.ctrl && e.which == 9){
-					document.getElementById('codeBox').value += '    ';
-					return false;
+			var lstNewLine, keyCnt = 0;
+			function replace(ob, lpos, rpos, str){
+				var len = str.length;
+				var lpart = ob.value.substring(0, lpos);
+				var rpart = ob.value.substring(rpos, ob.value.length);
+				ob.value = lpart + str + rpart;
+				ob.setSelectionRange(lpos + len, lpos + len);
+			}
+			function keyCheck(e){
+				keyCnt++;
+				if(e.ctrl || (e.which != 9 && e.which != 13)) return true;
+				var ob = document.getElementById('codeBox');
+				var pos = ob.selectionStart;
+				if(e.which == 9) replace(ob, pos, pos, "\t");
+				else if(e.which == 13){
+					lstNewLine = keyCnt;
+					var npos, str = "\n";
+					if(pos > 0 && ob.value[pos - 1] == '{' && ob.value[pos] != '}') str += "\t";
+					for(npos = pos; npos > 0 && ob.value[npos - 1] != '\n'; npos--);
+					while(ob.value[npos] == "\t") npos++, str += "\t";
+					replace(ob, pos, pos, str);
 				}
-				else */return true;
+				return false;
+			}
+			function keyupCheck(e){
+				var ob = document.getElementById('codeBox');
+				var pos = ob.selectionStart;
+				if(!e.ctrl && e.which == 221 && ob.value[pos - 1] == '}' && pos > 1 && ob.value[pos - 2] == "\t" && lstNewLine + 2 >= keyCnt){
+					replace(ob, pos - 2, pos, '}');
+				}
 			}
 		</script>
 	</head>
@@ -17,7 +40,7 @@
 		<form style="float:left" action="/ntucoder" method="post">
 			<fieldset style="border:0px;">
 				<legend>Code</legend>
-				<textarea id="codeBox" cols="70" rows="18" name="code" onkeydown="return tabCheck(event)">{{ code }}</textarea>
+				<textarea id="codeBox" cols="70" rows="18" name="code" onkeyup="keyupCheck(event)" onkeydown="return keyCheck(event)">{{ code }}</textarea>
 			</fieldset>
 			<fieldset style="border:0px;">
 				<legend>Input</legend>
