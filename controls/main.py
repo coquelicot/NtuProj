@@ -1,6 +1,7 @@
 import os
 import cgi
 import logging
+import datetime
 
 from google.appengine.api import users
 from google.appengine.api import memcache
@@ -26,6 +27,8 @@ class GuestBook(webapp.RequestHandler):
 			greeting = Greeting()
 			greeting.author = users.get_current_user()
 			greeting.content = self.request.get('message')
+			# taiwan's timezone: +8
+			greeting.date += datetime.timedelta(hours=8)
 			greeting.put()
 			self.response.headers['Content-Type'] = 'text/plain'
 			self.response.out.write(self.request.get('message'))
