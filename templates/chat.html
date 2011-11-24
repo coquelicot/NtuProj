@@ -1,5 +1,5 @@
 {% for greeting in greetings %}
-	<b>{{ greeting.author.nickname }}</b> wrote:
+<b>{{ greeting.author.nickname }} [{{ greeting.date.date }} / {{greeting.date.time.hour}}:{{greeting.date.time.minute}}:{{greeting.date.time.second}}] </b>wrote:
 	<blockquote>{{ greeting.content|escape }}</blockquote>
 {% endfor %}
 
