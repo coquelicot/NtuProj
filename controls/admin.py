@@ -8,7 +8,7 @@ class delGreeting(webapp.RequestHandler):
 	def get(self):
 		for instance in Greeting.all():
 			instance.delete()
-		memcache.delete('greetings')
+		memcache.delete('greetingCache')
 		self.redirect('/')
 
 application = webapp.WSGIApplication([('/admin/del', delGreeting)], debug=True)

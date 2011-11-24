@@ -11,14 +11,6 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext.webapp import template
 from dbs.greeting import Greeting
 
-def getGreetings():
-	greetings = memcache.get("greetings")
-	if greetings is None:
-		greetings = Greeting.gql("order by date desc limit 7")
-		if not memcache.add("greetings", greetings):
-			logging.error("Memcache set failed.")
-	return greetings
-
 class GuestBook(webapp.RequestHandler):
 
 	def post(self):
@@ -32,13 +24,18 @@ class GuestBook(webapp.RequestHandler):
 			greeting.put()
 			self.response.headers['Content-Type'] = 'text/plain'
 			self.response.out.write(self.request.get('message'))
-			memcache.delete("greetings")
+			memcache.delete("greetingCache")
 
 	def get(self):
 		self.response.headers['Content-Type'] = 'text/plain'
-		greetings = getGreetings()
-		path = os.path.join(os.path.dirname(__file__), '../templates/chat.html')
-		self.response.out.write(template.render(path, {'greetings': greetings}))
+		content = memcache.get("greetingCache")
+		if content is None:
+			greetings = Greeting.gql("order by date desc limit 7")
+			path = os.path.join(os.path.dirname(__file__), '../templates/chat.html')
+			content = template.render(path, {'greetings': greetings})
+			if not memcache.add("greetingCache", content):
+				logging.error("Memcache set failed.")
+		self.response.out.write(content)
 
 class MainPage(webapp.RequestHandler):
 
