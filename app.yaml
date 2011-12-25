@@ -1,18 +1,32 @@
 application: ntuproj
-version: 1
+version: 6 
 runtime: python
 api_version: 1
 
 handlers:
-- url: /ntucoder
-  script: controls/ntucoder.py
+
+- url: /main
+  script: ./controls/main.py
   login: required
-- url: /admin/.*
-  script: controls/admin.py
-  login: admin
-- url: /stylesheets/
-  static_dir: stylesheets
+
+- url: /coder/.*
+  script: ./controls/coder.py
+  login: required
+
+- url: /other/.*
+  script: ./controls/other.py
+  login: required
+
+- url: /chat/.*
+  script: ./controls/chat.py
+  login: required
+
 - url: /scripts/
   static_dir: scripts
-- url: /.*
-  script: controls/main.py
+
+- url: /stylesheets/
+  static_dir: stylesheets
+
+- url: /admin/.*
+  script: ./controls/admin.py
+  login: admin

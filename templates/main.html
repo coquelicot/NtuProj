@@ -1,0 +1,156 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Hi! This my first attempt!</title>
+        <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+        <script type='text/javascript' src='scripts/mainJs.js'></script>
+        <script type='text/javascript' src='scripts/keyboardJs.js'></script>
+        <script type='text/javascript' src='scripts/highlight.pack.js'></script>
+        <link rel='stylesheet' text='text/css' href='stylesheets/mainCss.css'/>
+        <link rel='stylesheet' text='text/css' href='stylesheets/roomListCss.css'/>
+        <link rel='stylesheet' text='text/css' href='stylesheets/vs.css'>
+        <script type='text/javascript'>
+            function usual(){
+                if(currentRoomName == null){
+                    setTimeout('usual()', 300);
+                }
+                else{
+                    setTimeout('notdisplay()',4000);
+                    getVisit();
+                    getMessage(currentRoomName);                
+                    getNumberOfUser();
+                    //getRoomList();
+                    setTimeout('usual()', 4000);
+                }
+            }
+            function initial(){
+                copy();
+                joinRoom('lobby');
+                usual();
+            }
+            function displayAuthor(){
+                document.getElementById('authors').style.display = 'block';
+                document.getElementById('authorCover').style.display = 'block';
+            }
+            function hiddenAuthor(){
+                document.getElementById('authors').style.display = 'none';
+                document.getElementById('authorCover').style.display = 'none';
+            }
+        </script>
+    </head>
+
+    <body onload="initial()">
+        <form id='left_frame'>
+            <div id='logout' onClick='logout()'>我<br>要<br>登<br>出<br></div>
+            <span class='title' id='Coder_title'>Coder</span>
+            <div>
+                <code id='code'></code>
+                <textarea id='realCode' wrap="soft" onkeydown="return keyCheck(event)" onClick="codeClick(0)" onblur="recover()" onkeyup="keyPress(event)" onscroll="syncScroll()"><Please write your code here!></textarea>
+            </div>
+
+            <!--What has not been done are listed as following:-->
+
+            <!--Besides the trivial things listed in the beginning of each parts, there are still some big problems:-->
+            <!--Such as the special effect for the chatroom and the choosing of bg color etc.-->
+
+
+            <!--Thought: use the z-index way to cover the border with title_name and word_count. -->
+
+            <span id='word_count_line'>The total word you have keyin:<span id='word_count'>0</span></span>
+            <br>
+            <div>
+                <span class='title' id='input_title'>Input </span>
+                <textarea id='input' onclick="clearInput(0)" onblur="recover()"><Please write your input here!></textarea>
+            </div>
+
+            <!--I wanna put the button in the center of left_frame,and divided three buttons into three parts equally.-->
+
+                <button id='clear_code' onClick="return codeClick(1)">clear_code</button>
+                <button id='clear_input' onClick='return clearInput(1)'>clear_input</button>
+                <!--<span id='send_your_test'><input type='submit' value='send_your_test'></span>-->
+                <button id='send_your_test' onclick="return sendCode()">send_your_test</button>
+
+            <!--div width=100% = 446px ; textarea width=100% = 496px the reason remains unknown-->
+
+            <!--In the beginning,we assume that we can't see the output frame, as the output appears, let the boarder to be solid.`-->
+
+            <span id='Output_title'>Output</span>
+            <div id ='output'>   <!--<div id='output'>-->
+                <span id='errorSyntax'><!--comment--></span><br>
+                <div id='errorContent'>
+                    <!--commemt-->
+                </div>
+            </div>
+        </form>
+
+        <form id='right_frame' action="#" border=0px onsubmit="return false;">
+            <table id='chatroom_frame'>
+                <tr>
+                    <td>
+                        <div  align='top'>
+                            <input id='create_room_text'>
+                            <button id='create_room_button' onclick="createRoom()">  Create a new room! </button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <!--put the currentRoomName value in this span, and give some space around the word.-->
+
+                        <span id='show_roomName'>Now you are in the room:</span><span id='currentRoomName'></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id='room_list'>
+                            <div id='room0' class='room' onmouseover="getUserList(document.getElementById('room_name0').innerHTML,event)" onmouseout="notdisplay()" onclick="joinRoom(document.getElementById('room_name0').innerHTML)">
+                                <div id='room_name0' class='room_name'>lobby</div><span class='person'>在線人數</span><span id='room_num0'></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div id='chatroom'></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div style="height=20%; padding=0px;">
+                            <textarea id='message_send_text'></textarea>
+                            <button id='message_send_button'  onclick="send_and_read()">送</br>出</br></button>
+                        </div>
+                    </td>
+                </tr>
+
+            </table>
+            <table id='board'>
+                <tr><td>當天累計人數：</td><td><span id='today_num'>{{ todayVisit }}</span></td></tr>
+                <tr><td>總累計人數：</td><td><span id='accumulate_num'>{{ totalVisit }}</span></td></tr>
+                <tr><td>您的IP位置：</td><td>{{ myIP }}</td></tr>
+            </table>
+        </form>
+        <div style="position:fixed; left:0px; top:20%;" onclick='displayAuthor();'> 自<br/>我<br/>介<br/>紹 </div>
+        <div id='show_userName'></div>
+        <div id='authorCover' onclick='hiddenAuthor();'></div>
+        <div id='authors'>
+            <fieldset class='authorField'>
+                <legend><h3> ~ Worm ~ [B00902106] </h3></legend>
+                I'm so weak.
+            </fieldset>
+            <br/><hr/><br/>
+            <fieldset class='authorField'>
+                <legend><h3> ~ Hogan ~ [B00902064] </h3></legend>
+                I'm so weak, too.
+            </fieldset>
+            <br/><hr/><br/>
+            <fieldset class='authorField'>
+                <legend><h3> ~ blablabla ~ </h3></legend>
+            </fieldset>
+        </div>
+    </body>
+</html>
+{% comment %}
+vim:filetype=htmldjango
+{% endcomment %}

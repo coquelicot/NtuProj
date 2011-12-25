@@ -1,0 +1,18 @@
+.person{
+    float:right;
+    margin-right:10%;
+}
+.room{
+    border-top-width:5px;
+    border-top-style:solid;
+    border-top-color:purple;
+    margin-left:0px;
+    margin-right:0px;
+    margin-bottom:30px;
+}
+.room_name{
+    float:left;
+    font-size:20px;
+    font-weight:500;
+    color:red;
+}

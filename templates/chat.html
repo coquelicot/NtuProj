@@ -1,6 +1,8 @@
-{% for greeting in greetings %}
-<b>{{ greeting.author.nickname }} [{{ greeting.date.date }} / {{greeting.date.time.hour}}:{{greeting.date.time.minute}}:{{greeting.date.time.second}}] </b>wrote:
-	<blockquote>{{ greeting.content|escape }}</blockquote>
+{% for message in messages %}
+<fieldset class='chatField'>
+    <legend><b>{{message.user.user.nickname}}</b></legend>
+    <div class='chatText'>{{ message.text|escape }}</div>
+</fieldset>
 {% endfor %}
 
 {% comment %}

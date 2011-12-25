@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Hi! This my first attempt!</title>
+        <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+        <script type='text/javascript' src='scripts/mainJs.js'></script>
+        <link rel='stylesheet' text='text/css' href='stylesheets/mainCss.css'/>
+    </head>
+
+    <body>
+
+        <form id='left_frame'>
+            <div>
+                <textarea id='code'>
+                    <!--這裡面要塞浮水印 需要要js-->
+                </textarea>
+            </div>
+
+            <div>
+                <textarea id='input'>
+                    <!--這裡面要塞浮水印 需要要js-->
+                </textarea>
+            </div>
+
+            <div id='code_botton_line'>
+                <span id='clear_code'><input onclick="clearCode()" value='clear_code'></span>
+                <span id='clear_input'><input onclick="clearInput()" value='clear_input'></span>
+                <span id='send_your_test'><input type='submit' value='send_your_test'></span>
+            </div>
+
+            <div>
+                <table id='output'>
+                    <span><!--這裡面要塞錯誤訊息--></span>
+                    <!--這裡面要塞浮水印 需要要js-->
+                </table>
+            </div>
+
+
+        </form>
+
+        <form id='right_frame' border=0px>
+            <table id='chatroom_frame'>
+                <tr>
+                    <td>
+                        <table id='create_room_line'>
+                            <tr>
+                                <td>
+                                    <textarea id='create_room_text'>
+                                    </textarea>
+                                </td>
+                                <td>    
+                                    <button onclick="createRoom()">create</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        
+                        <table id='room0'>
+                            <tr><td id='room_name0'>Lobby</td><td>在線人數</td><td><span id='room_num0'></span></td>
+                                
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <textarea id='chatroom'>
+                        </textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table id='message_send_line'>
+                            <tr>
+                                <td>
+                                    <textarea id='message_send_text'>
+                                    </textarea>
+                                </td>
+                                <td>
+                                    <button onclick="send_and_read()">Send_your_test</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+            <div>
+                <table id='board'>
+                    <tr><td>當天累計人數：</td><td><span id='today_num'></span></td></tr>
+                    <tr><td>總累計人數：</td><td><span id='accumulate_num'></span></td></tr>
+                    <tr><td>您的IP位置：<td></tr>
+                </table>
+            </div>
+        </form>
+    </body>
+</html>

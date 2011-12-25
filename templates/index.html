@@ -1,16 +1,16 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<title> hey !! ntu !! </title>
-		<script type='text/javascript' src='/scripts/base.js'></script>
-		<script type='text/javascript'>
-			function display(request){
-				if(request.readyState == 4){
-					if(request.status == 200){
-						var ob = document.getElementById("chatBox");
-						ob.innerHTML = request.responseText;
-					}
+<HTML>
+	<HEAD>
+		<SCRIPT type="text/javascript">
+			var nowRoom, joinBlock = false;
+			function getRequestObject(){
+				var request = false;
+				if(window.XMLHttpRequest){
+					request = new XMLHttpRequest();
 				}
+				else{
+					request = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				return request;
 			}
 			function send(request, method, url, flg, msg){
 				var time = new Date();
@@ -20,49 +20,116 @@
 				}
 				request.send(msg);
 			}
-			function show(){
-				var request = getRequestObject();
-				if(!request) return false;
-				request.onreadystatechange = function(){display(request);}
-				send(request, 'GET', './show', true, null);
-			}
-			function showLoop(){
-				show();
-				setTimeout('showLoop()', 4000);
-			}
-			function submitMsg(){
-				var request = getRequestObject();
-				if(!request) return false;
-				var msgBox = document.getElementById('message');
-				var message = 'message=' + encodeURIComponent(msgBox.value);
-				request.onreadystatechange = function(){
-					if(request.readyState == 4){
-						if(request.status == 200){
-							show();
-							msgBox.value = '';
-						}
-					}
-				}
-				send(request, 'POST', '/sign', false, message);
+			function sendMsg(){
+				var req = getRequestObject();
+				if(!req) return false;
+				var ob = document.getElementById("zzz");
+				var val = 'text=' + encodeURIComponent(ob.value) + '&room=' + encodeURIComponent(nowRoom);
+				ob.value = '';
+				send(req, 'POST', '/chat/sendMessage', true, val);
 				return false;
 			}
-		</script>
-	</head>
-	<body onload="showLoop()">
-		<div id="chatBox">
-		</div>
-		{% if user %}
-			<form onsubmit="return submitMsg();">
-				<div><textarea id="message" name="message" rows="3" cols="60"></textarea></div>
-				<div><input type="submit" value="Sign Guestbook"></div>
-			</form>
-		{% endif %}
-
-		<a href="{{ url }}">{{ url_linktext }}</a>
-
-	</body>
-</html>
-
-{% comment %}
-	vim:filetype=htmldjango
-{% endcomment %}
+			function show(){
+				var ob = getRequestObject();
+				if(!ob) alert('q');
+				else{
+					ob.onreadystatechange = function(){
+						if(ob.readyState == 4){
+							if(ob.status == 200){
+								document.getElementById("qqq").innerHTML = ob.responseText;
+							}
+						}
+					}
+					send(ob, 'POST', '/chat/getMessage', false, 'room=' + encodeURIComponent(nowRoom));
+				}
+			}
+			function showLoop(){
+				if(!joinBlock) show();
+				setTimeout('showLoop()', 4000);
+			}
+			function joinRoom(roomname){
+				var req = getRequestObject();
+				if(!req) return false;
+				joinBlock = true;
+				req.onreadystatechange = function(){
+					if(req.readyState == 4 && req.status == 200){
+						if(req.responseText == "AC"){
+							nowRoom = roomname;
+							joinBlock = false;
+						}
+						else alert(req.responseText);
+					}
+				}
+				send(req, 'POST', '/chat/joinRoom', true, 'room=' + encodeURIComponent(roomname));
+			}
+			function initial(){
+				joinRoom('lobby');
+				showLoop();
+			}
+			function numUser(){
+				var req = getRequestObject();
+				if(!req) return false;
+				req.onreadystatechange = function(){
+					if(req.readyState == 4 && req.status == 200){
+						alert(req.responseText);
+					}
+				}
+				send(req, 'POST', '/chat/getNumberOfUser', true, null);
+			}
+			function roomList(){
+				var req = getRequestObject();
+				if(!req) return false;
+				req.onreadystatechange = function(){
+					if(req.readyState == 4 && req.status == 200){
+						alert(req.responseText);
+					}
+				}
+				send(req, 'POST', '/chat/getRoomList', true, null);
+			}
+			function createRoom(){
+				var req = getRequestObject();
+				if(!req) return false;
+				var ob = document.getElementById('qqqqq');
+				var msg = 'room=' + encodeURIComponent(ob.value);
+				ob.value = '';
+				req.onreadystatechange = function(){
+					if(req.readyState == 4 && req.status == 200){
+						alert(req.responseText);
+					}
+				}
+				send(req, 'POST', '/chat/createRoom', true, msg);
+			}
+			function joinRoom2(){
+				var ob = document.getElementById('qqqqqq');
+				joinRoom(ob.value);
+				ob.value = '';
+			}
+			function userList(){
+				var req = getRequestObject();
+				if(!req) return false;
+				var ob = document.getElementById('qqqqqqq');
+				var msg = 'room=' + encodeURIComponent(ob.value);
+				ob.value = '';
+				req.onreadystatechange = function(){
+					if(req.readyState == 4 && req.status == 200){
+						alert(req.responseText);
+					}
+				}
+				send(req, 'POST', '/chat/getUserList', true, msg);
+			}
+		</SCRIPT>
+	</HEAD>
+	<BODY onload="initial()">
+		<DIV id="qqq"></DIV>
+		<TEXTAREA id="zzz"></TEXTAREA>
+		<BUTTON onclick="sendMsg();">send</BUTTON>
+		<BUTTON onclick="numUser();">numUser</BUTTON>
+		<BUTTON onclick="roomList();">roomList</BUTTON>
+		<input type='text' id='qqqqq' />
+		<BUTTON onclick="createRoom();">createRoom</BUTTON>
+		<input type='text' id='qqqqqq' />
+		<BUTTON onclick="joinRoom2();">joinRoom</BUTTON>
+		<input type='text' id='qqqqqqq' />
+		<BUTTON onclick="userList();">userList</BUTTON>
+	</BODY>
+</HTML>

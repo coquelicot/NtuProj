@@ -1,0 +1,84 @@
+/*
+
+Visual Studio-like style based on original C# coloring by Jason Diamond <jason@diamond.name>
+
+*/
+div code{
+  display: block;
+}
+
+div .comment,
+div .annotation,
+div .template_comment,
+div .diff .header,
+div .chunk,
+div .apache .cbracket {
+  color: rgb(0, 128, 0);
+}
+
+div .keyword,
+div .id,
+div .title,
+div .built_in,
+div .aggregate,
+div .smalltalk .class,
+div .winutils,
+div .bash .variable,
+div .tex .command {
+  color: rgb(0, 0, 255);
+}
+
+div .string,
+div .title,
+div .parent,
+div .tag .value,
+div .rules .value,
+div .rules .value .number,
+div .ruby .symbol,
+div .ruby .symbol .string,
+div .ruby .symbol .keyword,
+div .ruby .symbol .keymethods,
+div .instancevar,
+div .aggregate,
+div .template_tag,
+div .django .variable,
+div .addition,
+div .flow,
+div .stream,
+div .apache .tag,
+div .date,
+div .tex .formula {
+  color: rgb(163, 21, 21);
+}
+
+div .ruby .string,
+div .decorator,
+div .filter .argument,
+div .localvars,
+div .array,
+div .attr_selector,
+div .pseudo,
+div .pi,
+div .doctype,
+div .deletion,
+div .envvar,
+div .shebang,
+div .preprocessor,
+div .userType,
+div .apache .sqbracket,
+div .nginx .built_in,
+div .tex .special,
+div .input_number {
+  color: rgb(43, 145, 175);
+}
+
+div .phpdoc,
+div .javadoc,
+div .xmlDocTag {
+  color: rgb(128, 128, 128);
+}
+
+div .vhdl .type { font-weight: bold; }
+div .vhdl .string { color: #666666; }
+div .vhdl .literal { color: rgb(163, 21, 21); }
+

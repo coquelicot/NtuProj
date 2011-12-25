@@ -1,0 +1,256 @@
+#logout{
+    position:fixed;
+    top:40%;
+    left:0%;
+}
+#left_frame{
+    float:left;
+    width:45%;
+    height:900px;
+    margin:30px;
+}
+#Coder_title{
+    background-color:white;
+    z-index:2;
+    position:absolute;
+    top:1%;
+    left:3%;
+}
+#code{
+    white-space:pre-wrap;
+    font-family:monospace;
+    padding-left:19.5px;
+    padding-top:19.5px;
+    overflow-y:scroll;
+    overflow-x:hidden;
+    width:45%;
+    height:55%;
+    z-index:0;
+    position:absolute;
+    top:6%;
+    left:3%;
+    border:#213216 10px outset;
+    /*
+    top:6%;
+    left:3%;
+    padding-top:20px;
+    padding-left:15px;
+    overflow-y:scroll;
+    width:45%;
+    height:55%;
+    */
+}
+#realCode{
+    resize:none;
+    word-wrap:keep-all;
+    padding-left:19px;
+    padding-top:18px;
+    border:0px;
+    width:44.8%;
+    height:55%;
+    overflow-y:scroll;
+    position:absolute;
+    top:6%;
+    left:3%;
+    z-index:1;
+    background:rgba(0,0,0,0);
+    color:rgba(70,70,70,0.514);
+    border:#213216 10px outset;
+}
+#input_title{
+    background-color:white;
+    z-index:2;
+    position:absolute;
+    top:75%;
+    left:3%;
+    color:black; 
+    border:black 2px solid;
+}
+#input{
+    position:absolute;
+    top:80%;
+    left:3%;
+    padding-top:20px;
+    padding-left:15px;
+    overflow-y:scroll;
+    width:45%;
+    height:25%;
+    border:#213216 10px outset;
+}
+#word_count_line{
+    z-index:2;
+    background-color:white;
+    position:absolute;
+    top:66%;
+    right:48%;
+    float:right;
+    border-width:2px;
+    border-style:solid;
+}
+#word_count{
+    font-weight:bold;
+    color:purple;
+}
+#Output_title{
+    background-color:white;
+    z-index:2;
+    font-size:0px;
+    position:absolute;
+    top:125%;
+    left:3%;
+}
+#output{
+    padding-top:25px;
+    padding-left:15px;
+    position:absolute;
+    top:130%;
+    left:3%;
+    width:46%;
+    height:25%;
+}
+#clear_code{
+    position:absolute;
+    top:118%;
+    left:8%;
+}
+#clear_input{
+    position:absolute;
+    top:118%;
+    left:22%;
+}
+#send_your_test{
+    position:absolute;
+    top:118%;
+    left:33%;
+}
+#right_frame{
+    float:right;
+    width:35%;
+    height:900px;
+    margin-right:50px;
+    margin-top:30px;
+    margin-bottom:30px;
+}
+#chatroom_frame{
+    position:absolute;
+    top:6%;
+    left:60%;
+    width:35%;
+    height:80%;
+    padding:0px;
+    border-width:10px;
+    border-style:outset; 
+    border-color:#213216;
+    border-collapse: collapse;
+}
+#chatroom_frame tr{
+    float:top;
+    border-width:10px;
+    border-style:solid; 
+    border-color:blue;
+}
+#create_room_text{
+    width:58%;
+    float:left;
+}
+#create_room_button{
+    float:right;
+}
+#show_roomName{
+    font-weight:bold;
+    color:green;
+}
+#currentRoomName{
+    color:purple;
+    font-weight:bold;
+}
+#room_list{
+    overflow-y:scroll;
+    overflow-x:hidden;
+    width:100%;
+    height:80px;
+}
+#chatroom{
+    overflow-y:auto;
+    padding:2%;
+    width:96%;
+    height:450px;
+}
+#message_send_text{
+    margin-right:0%;
+    width:85%;
+    height:100%;
+}
+#message_send_button{
+    font-size:15px;
+    font-weight:thick;
+    width:10%;
+    height:50%;
+}
+#board{
+    position:absolute;
+    top:125%;
+    left:60%;
+    padding:10px;
+    overflow:auto;
+    width:35%;
+    height:100px;
+    margin-top:45px;
+    border:#213216 10px outset;
+}
+#today_num{
+    width:100px;
+    height:30px;
+}
+#accumulate_num{
+    width:100px;
+    height:30px;
+} 
+textarea{
+    resize: none;
+}
+.title{
+    margin-top:25px;
+    padding:1px;
+    border-width:2px;
+    border-style:solid;
+}
+#authors{
+    position: fixed;
+    left:   10%;
+    top:    10%;
+    width:  74%;
+    height: 74%;
+    padding:    3%;
+    display:    none;
+    z-index:    100;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius:  10px;
+}
+#authorCover{
+    position:   fixed;
+    left:   0px;
+    top:    0px;
+    width:  100%;
+    height: 100%;
+    display:    none;
+    z-index:    99;
+    background: rgba(0, 0, 0, 0.75);
+}
+.authorField{
+    border-top: 0px;
+    border-right: 0px;
+    border-radius:  10px;
+}
+.chatField{
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 0px;
+    border-style: dashed;
+}
+.chatText{
+    margin-top:0px;
+    margin-bottom:0px;
+    padding-left:20px;
+    word-wrap:break-all;
+}
