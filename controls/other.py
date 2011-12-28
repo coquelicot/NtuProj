@@ -1,6 +1,6 @@
 import logging
 from databases.other import Counter
-from databases.chat import NtuUser, Room
+from databases.chat import NtuUser, Room, Message
 from google.appengine.ext import db
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app

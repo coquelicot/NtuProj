@@ -3,6 +3,7 @@ import os
 import time
 import logging
 import datetime
+import random
 from databases.chat import *
 from google.appengine.ext import db
 from google.appengine.ext import webapp
@@ -37,6 +38,13 @@ class MessageSolver(webapp.RequestHandler):
         memcache.delete(cacheName)
 
     def getMessage(self):
+        user = NtuUser.gql("where user = :1" ,users.get_current_user())
+        if user.count() == 0:
+            self.response.out.write('User not exist.')
+            return 
+        user = user.get()
+        user.timestamp = int(time.time())
+        user.put()
         roomname = self.request.get('room').strip()
         cacheName = "roomChat_" + roomname
         result = memcache.get(cacheName)
@@ -49,10 +57,7 @@ class MessageSolver(webapp.RequestHandler):
                 result = template.render(path, {'messages':messages})
                 if memcache.set(cacheName, result) == False:
                     logging.error("Can not set cache " + cacheName)
-        user = NtuUser.gql("where user = :1" ,users.get_current_user())
-        if user.count() > 0:
-            user.get().timestamp = int(time.time())
-            self.response.out.write(result)
+        self.response.out.write(result)
 
     def post(self, order):
         if order == "send":
@@ -67,24 +72,19 @@ class RoomSolver(webapp.RequestHandler):
             self.response.out.write('Not enabled.')
             return
         roomname = self.request.get('room').strip()
-        cacheName = 'roomUsers_' + roomname
-        result = memcache.get(cacheName)
-        if result is None:
-            obset = Room.gql("where name = '" + roomname + "'")
-            if obset.count() > 0:
-                result = ''
-                ob = obset.get()
-                now = int(time.time())
-                for ntuuser in ob.ntuuser_set:
-                    if now - ntuuser.timestamp <= 120:
-                        result += ntuuser.user.nickname() + "\n"
-                    else:
-                        ntuuser.room = None
-                        ntuuser.put()
-                if memcache.set(cacheName, result) == False:
-                    logging.error('Can not set cache ' + cacheName)
-            else:
-                result = 'Room not exist.'
+        obset = Room.gql("where name = '" + roomname + "'")
+        if obset.count() > 0:
+            result = ''
+            ob = obset.get()
+            now = int(time.time())
+            for ntuuser in ob.ntuuser_set:
+                if now - ntuuser.timestamp <= 20:
+                    result += ntuuser.user.nickname() + "\n"
+                else:
+                    ntuuser.room = None
+                    ntuuser.put()
+        else:
+            result = 'Room not exist.'
         self.response.out.write(result)
 
     def getNumberOfUser(self):
@@ -125,9 +125,6 @@ class RoomSolver(webapp.RequestHandler):
             ntuuser = ntuusers.get()
             lastroom = ntuuser.room
             if lastroom and lastroom.name != roomname:
-                if enableGetUser:
-                    cacheName = "roomUsers_" + lastroom.name
-                    memcache.delete(cacheName)
                 if lastroom.ntuuser_set.count() == 1 and lastroom.name != "lobby":
                     memcache.delete('roomChat_' + lastroom.name)
                     db.delete(Message.gql("where Room = :1" ,lastroom))
@@ -136,9 +133,6 @@ class RoomSolver(webapp.RequestHandler):
         ntuuser.timestamp = int(time.time())
         ntuuser.room = rooms.get()
         ntuuser.put()
-        if enableGetUser:
-            cacheName = "roomUsers_" + roomname
-            memcache.delete(cacheName)
         self.response.out.write('AC')
 
     def getRoomList(self):
